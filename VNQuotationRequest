@@ -1,0 +1,72 @@
+[DataContract]
+public class VNQuotationRequest
+{
+    DataAreaId   company;
+    QuotationId          quotationId;
+    QuotationName          quotationName;
+    QuotationType          quotationType;
+    CustAccount  custAccount;
+    TransDate  transDate;
+    SalesQuotationStatus          quotationStatus;
+    List         lines;
+
+    [DataMember("Company")]
+    public DataAreaId parmCompany(DataAreaId _v = company)
+    {
+        company = _v;
+        return company;
+    }
+
+    [DataMember("QuotationId")]
+    public str parmQuotationId(str _v = quotationId)
+    {
+        quotationId = _v;
+        return quotationId;
+    }
+
+    [DataMember("QuotationName")]
+    public str parmQuotationName(str _v = quotationName)
+    {
+        quotationName = _v;
+        return quotationName;
+    }
+
+    [DataMember("QuotationType")]
+    public QuotationType parmQuotationType(QuotationType _v = quotationType)
+    {
+        quotationType = _v;
+        return quotationType;
+    }
+
+    [DataMember("CustAccount")]
+    public CustAccount parmCustAccount(CustAccount _v = custAccount)
+    {
+        custAccount = _v;
+        return custAccount;
+    }
+
+    [DataMember("TransDate")]
+    public TransDate parmTransDate(TransDate _v = transDate)
+    {
+        transDate = _v;
+        return transDate;
+    }
+
+    [DataMember("QuotationStatus")]
+    public SalesQuotationStatus parmQuotationStatus(SalesQuotationStatus _v = quotationStatus)
+    {
+        quotationStatus = _v;
+        return quotationStatus;
+    }
+
+    // Header + many lines
+    [DataMember("Lines"),
+     AifCollectionType("_lines", Types::Class, classStr(VNQuotationLineContract)),
+     AifCollectionType("return", Types::Class, classStr(VNQuotationLineContract))]
+    public List parmLines(List _lines = lines)
+    {
+        lines = _lines;
+        return lines;
+    }
+
+}
