@@ -1,0 +1,29 @@
+[DataContract]
+public class VNQuotationResponse
+{
+    boolean success;
+    str     message;
+    str     quotationId;
+
+    [DataMember("Success")]
+    public boolean parmSuccess(boolean _v = success)
+    {
+        success = _v;
+        return success;
+    }
+
+    [DataMember("Message")]
+    public str parmMessage(str _v = message)
+    {
+        message = _v;
+        return message;
+    }
+
+    [DataMember("QuotationId")]
+    public str parmQuotationId(str _v = quotationId)
+    {
+        quotationId = _v;
+        return quotationId;
+    }
+
+}
