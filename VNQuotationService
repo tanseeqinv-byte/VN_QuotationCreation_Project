@@ -1,0 +1,86 @@
+public class VNQuotationService
+{
+    public VNQuotationResponse createQuotation(VNQuotationRequest _request)
+    {
+        VNQuotationResponse      response = new VNQuotationResponse();
+        VNQuotationHeader        header;
+        VNQuotationLine          line;
+        List                     lines;
+        ListEnumerator           enumLines;
+        VNQuotationLineContract  lineContract;
+        EcoResCategory           ecoResCategory;
+
+        changecompany(_request.parmCompany())
+        {
+            try
+            {
+                ttsbegin;
+
+                // Header
+                header.clear();
+                header.QuotationId     = _request.parmQuotationId();
+                header.QuotationName   = _request.parmQuotationName();
+                header.QuotationType   = _request.parmQuotationType();
+                header.CustAccount     = _request.parmCustAccount();
+                header.TransDate       = _request.parmTransDate();
+                header.SyncedToD365    = NoYesCombo::No;
+                header.CreatedBy1      = curUserId();
+                header.QuotationStatus = _request.parmQuotationStatus();
+                header.insert();
+
+                // Lines
+                lines = _request.parmLines();
+                if (lines)
+                {
+                    enumLines = lines.getEnumerator();
+                    while (enumLines.moveNext())
+                    {
+                        lineContract = enumLines.current();
+
+                        line.clear();
+                        line.LineNumber    = lineContract.parmLineNumber();
+                        line.ItemId        = lineContract.parmItemId();
+                        line.SalesUnit     = lineContract.parmSalesUnit();
+                        line.SalesQty      = lineContract.parmSalesQty();
+                        line.InventSizeId  = lineContract.parmInventSizeId();
+                        line.InventColorId = lineContract.parmInventColorId();
+                        line.InventStyleId = lineContract.parmInventStyleId();
+
+                        // Link to header if you have such a field
+                        // line.QuotationId = header.QuotationId; // or line.HeaderRecId = header.RecId;
+
+                        // Map SalesCategory string -> RecId
+                        line.SalesCategory = 0;
+                        if (lineContract.parmSalesCategory())
+                        {
+                            select firstonly ecoResCategory
+                                where ecoResCategory.Name == lineContract.parmSalesCategory(); // adjust key if needed
+
+                            if (ecoResCategory.RecId)
+                            {
+                                line.SalesCategory = ecoResCategory.RecId;
+                            }
+                        }
+
+                        line.insert();
+                    }
+                }
+
+                ttscommit;
+
+                response.parmSuccess(true);
+                response.parmMessage("Quotation created");
+                response.parmQuotationId(header.QuotationId);
+            }
+            catch (Exception::Error)
+            {
+                ttsabort;
+                response.parmSuccess(false);
+                response.parmMessage(strFmt("Error creating quotation %1", _request.parmQuotationId()));
+            }
+        }
+
+        return response;
+    }
+
+}
