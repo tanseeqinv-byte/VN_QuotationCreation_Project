@@ -1,0 +1,69 @@
+[DataContract]
+public class VNQuotationLineContract
+{
+    LineNumber    lineNumber;
+    ItemId        itemId;
+    str salesCategory;
+    SalesUnit     salesUnit;
+    InventQty     salesQty;
+    EcoResSizeName  inventSizeId;
+    EcoResColorName inventColorId;
+    EcoResStyleName inventStyleId;
+
+    [DataMember("LineNumber")]
+    public int parmLineNumber(int _v = lineNumber)
+    {
+        lineNumber = _v;
+        return lineNumber;
+    }
+
+    [DataMember("ItemId")]
+    public ItemId parmItemId(ItemId _v = itemId)
+    {
+        itemId = _v;
+        return itemId;
+    }
+
+    [DataMember("SalesCategory")]
+    public str parmSalesCategory(str _v = salesCategory)
+    {
+        salesCategory = _v;
+        return salesCategory;
+    }
+
+    [DataMember("SalesUnit")]
+    public SalesUnit parmSalesUnit(SalesUnit _v = salesUnit)
+    {
+        salesUnit = _v;
+        return salesUnit;
+    }
+
+    [DataMember("SalesQty")]
+    public InventQty parmSalesQty(InventQty _v = salesQty)
+    {
+        salesQty = _v;
+        return salesQty;
+    }
+
+    [DataMember("InventSizeId")]
+    public EcoResSizeName parmInventSizeId(EcoResSizeName _v = inventSizeId)
+    {
+        inventSizeId = _v;
+        return inventSizeId;
+    }
+
+    [DataMember("InventColorId")]
+    public EcoResColorName parmInventColorId(EcoResColorName _v = inventColorId)
+    {
+        inventColorId = _v;
+        return inventColorId;
+    }
+
+    [DataMember("InventStyleId")]
+    public EcoResStyleName parmInventStyleId(EcoResStyleName _v = inventStyleId)
+    {
+        inventStyleId = _v;
+        return inventStyleId;
+    }
+
+}
